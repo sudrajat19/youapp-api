@@ -7,14 +7,22 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
-    logging: console.log,
-    dialectOptions: {},
+    port: process.env.DB_PORT || 3306,
+    dialect: process.env.DB_DIALECT || "mysql",
+    logging: console.log, // Akan menampilkan semua query yang dijalankan
+    dialectOptions:
+      process.env.NODE_ENV === "production"
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
   }
 );
 
-// Test database connection
+// Log pengecekan koneksi database
 sequelize
   .authenticate()
   .then(() => {
@@ -23,4 +31,3 @@ sequelize
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-export default sequelize;
