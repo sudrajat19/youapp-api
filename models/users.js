@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
-import db from "../utils/db.js";
+import db from "../utils/supabaseClient.js";
 import Anggota from "./anggota.js";
 
 const User = db.define("User", {

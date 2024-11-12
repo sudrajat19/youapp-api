@@ -1,5 +1,5 @@
 import { QueryTypes } from "sequelize";
-import sequelize from "../utils/db.js";
+import sequelize from "../utils/supabaseClient";
 
 export const getAlbum = async (req, res) => {
   try {

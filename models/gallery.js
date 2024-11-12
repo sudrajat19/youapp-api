@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
-import db from "../utils/db.js";
+import db from "../utils/supabaseClient";
 
 const Gallery = db.define("gallery", {
   id_gallery: {

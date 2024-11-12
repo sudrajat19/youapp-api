@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import "dotenv/config";
-import db from "../utils/db.js";
+import db from "../utils/supabaseClient";
 
 const Albums = db.define("albums", {
   id_albums: {

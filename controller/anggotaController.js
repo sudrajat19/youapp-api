@@ -2,7 +2,7 @@ import fs from "fs";
 import Anggota from "../models/anggota.js";
 
 import { QueryTypes } from "sequelize";
-import sequelize from "../utils/db.js";
+import sequelize from "../utils/supabaseClient.js";
 import { validationResult } from "express-validator";
 
 export const getAnggota = async (req, res) => {

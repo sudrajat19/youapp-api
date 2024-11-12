@@ -1,6 +1,6 @@
 // models/messageModel.js
 import { DataTypes } from "sequelize";
-import sequelize from "../utils/db.js"; // Pastikan Anda mengimpor instance sequelize
+import sequelize from "../utils/supabaseClient"; // Pastikan Anda mengimpor instance sequelize
 
 const Message = sequelize.define(
   "Message",

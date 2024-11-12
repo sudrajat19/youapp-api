@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import http from "http";
 import { Server } from "socket.io";
-import sequelize from "./utils/db.js";
+import sequelize from "./utils/supabaseClient.js";
 import routes from "./routes/index.js";
 import { saveChatMessage } from "./controller/messageController.js";
 
