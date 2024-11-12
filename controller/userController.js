@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { config } from "../config/secret.js";
 import ip from "ip";
 import { QueryTypes } from "sequelize";
-import sequelize from "../utils/supabaseClient.js";
+import sequelize from "../utils/db.js";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 

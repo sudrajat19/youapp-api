@@ -1,6 +1,6 @@
 import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
-import db from "../utils/supabaseClient";
+import db from "../utils/db.js";
 
 const Access = db.define("access_tokens", {
   id: {
