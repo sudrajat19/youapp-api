@@ -9,9 +9,9 @@ import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 
 export const login = async function (req, res) {
+  const { email, password } = req.body;
+  console.log(email, "ini email", password, "ini password");
   try {
-    const { email, password } = req.body;
-
     const users = await Users.findOne({ where: { email } });
     if (!users) {
       return res.status(400).json({ message: "Email atau password salah!" });
@@ -53,24 +53,6 @@ export const login = async function (req, res) {
   }
 };
 
-export const getUsersByAnggota = async (req, res) => {
-  const id_users = req.params.id_users;
-  try {
-    const data = await sequelize.query(
-      `SELECT *  FROM users 
-      JOIN anggota ON users.id_users = anggota.id_users 
-      WHERE users.id_users = :id_users`,
-      {
-        replacements: { id_users },
-        type: QueryTypes.SELECT,
-      }
-    );
-    res.send(data);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error);
-  }
-};
 export const getUsers = async (req, res) => {
   try {
     const data = await Users.findAll();
@@ -94,12 +76,11 @@ export const getUserById = async (req, res) => {
 
 export const addUsers = async (req, res) => {
   const saltRounds = 10;
-  const nama = req.body.nama;
+  const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
-  const role = req.body.role;
 
-  if (!nama || !email || !password || !role) {
+  if (!username || !email || !password) {
     return res.status(400).json({
       message: "Semua field harus diisi",
     });
@@ -113,10 +94,9 @@ export const addUsers = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const newUser = await Users.create({
-      nama,
+      username,
       email,
       password: hashedPassword,
-      role,
     });
 
     res.status(201).json({
@@ -182,10 +162,9 @@ export const updatePassword = async (req, res) => {
 export const updateUsers = async (req, res) => {
   const saltRounds = 10;
   const id_users = req.params.id_users;
-  const nama = req.body.nama;
+  const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
-  const role = req.body.role;
   Users.findByPk(id_users)
     .then((data) => {
       if (data) {
@@ -202,7 +181,7 @@ export const updateUsers = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  if (!nama || !email || !password || !role) {
+  if (!username || !email || !password) {
     return res.status(400).json({
       message: "Semua field harus diisi",
     });
@@ -212,10 +191,9 @@ export const updateUsers = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const newUser = await Users.update(
       {
-        nama,
+        username,
         email,
         password: hashedPassword,
-        role,
       },
       {
         where: { id_users: id_users },

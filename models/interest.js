@@ -1,12 +1,19 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
 import db from "../utils/db.js";
-
-const Albums = db.define("albums", {
-  id_albums: {
+const Interest = db.define("interest", {
+  id_interest: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
+  },
+  id_users: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  interest: {
+    type: Sequelize.STRING,
     allowNull: false,
   },
   created_at: {
@@ -29,4 +36,4 @@ db.sync({ alter: true })
     console.error("Error syncing database:", err);
   });
 
-export default Albums;
+export default Interest;

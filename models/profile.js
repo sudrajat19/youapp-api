@@ -2,8 +2,8 @@ import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
 import db from "../utils/db.js";
 
-const Anggota = db.define("anggota", {
-  id_anggota: {
+const Profile = db.define("profile", {
+  id_profile: {
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
@@ -14,37 +14,37 @@ const Anggota = db.define("anggota", {
     allowNull: false,
     index: true,
   },
-  nama_lengkap: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  jabatan: {
-    type: Sequelize.STRING,
+  birthday: {
+    type: Sequelize.DATE,
     allowNull: false,
   },
-  nomor_anggota: {
-    type: Sequelize.STRING,
+  height: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
-  nomor_telp: {
-    type: Sequelize.STRING,
+  weight: {
+    type: Sequelize.INTEGER,
     allowNull: false,
   },
-  angkatan: {
+  gender: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+  },
+  horoscope: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
+  zodiac: {
+    type: Sequelize.STRING,
+    allowNull: true,
   },
   photo: {
     type: Sequelize.STRING,
-    allowNull: true,
-  },
-  alamat: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-  instagram: {
-    type: Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   created_at: {
     type: Sequelize.DATE,
@@ -58,4 +58,4 @@ const Anggota = db.define("anggota", {
   },
 });
 
-export default Anggota;
+export default Profile;

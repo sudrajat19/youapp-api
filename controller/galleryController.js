@@ -1,4 +1,6 @@
 import fs from "fs";
+import sequelize from "../utils/db.js";
+import { QueryTypes } from "sequelize";
 import GalleryModel from "../models/gallery.js"; // Renamed to avoid shadowing
 import { validationResult } from "express-validator";
 
@@ -12,8 +14,23 @@ export const getGallery = async (req, res) => {
   }
 };
 
+export const getGalleryByAlbum = async (req, res) => {
+  const { id_albums } = req.params;
+  try {
+    const data = await sequelize.query(
+      `SELECT * FROM galleries WHERE galleries.id_albums = :id_albums`,
+      {
+        replacements: { id_albums },
+        type: QueryTypes.SELECT,
+      }
+    );
+    res.send(data);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 export const getGalleryById = async (req, res) => {
-  const { id_gallery } = req.params; // Destructured for clarity
+  const { id_gallery } = req.params;
   try {
     const data = await GalleryModel.findByPk(id_gallery);
     if (!data) {
@@ -29,6 +46,7 @@ export const getGalleryById = async (req, res) => {
 export const addGallery = async (req, res) => {
   let gambar = req.file ? "images/" + req.file.filename : null;
   const deskripsi = req.body.deskripsi;
+  const id_albums = req.body.id_albums;
 
   if (!gambar) {
     return res.status(400).json({ message: "Semua field harus diisi" });
@@ -40,7 +58,11 @@ export const addGallery = async (req, res) => {
   }
 
   try {
-    const newGallery = await GalleryModel.create({ gambar, deskripsi });
+    const newGallery = await GalleryModel.create({
+      gambar,
+      deskripsi,
+      id_albums,
+    });
     res.status(201).json({
       message: "Gallery berhasil ditambahkan",
       data: newGallery,
@@ -57,6 +79,7 @@ export const addGallery = async (req, res) => {
 export const updateGallery = async (req, res) => {
   const { id_gallery } = req.params; // Added this line
   const deskripsi = req.body.deskripsi;
+  const id_albums = req.body.id_albums;
   let gambar = req.file ? "images/" + req.file.filename : null;
 
   const errors = validationResult(req);
@@ -76,7 +99,7 @@ export const updateGallery = async (req, res) => {
       });
     }
 
-    await gallery.update({ gambar, deskripsi }); // Update the existing gallery
+    await gallery.update({ gambar, deskripsi, id_albums });
 
     res.status(200).json({
       message: "Gallery berhasil diupdate",
@@ -92,7 +115,7 @@ export const updateGallery = async (req, res) => {
 };
 
 export const deleteGallery = async (req, res) => {
-  const { id_gallery } = req.params; // Added this line
+  const { id_gallery } = req.params;
   try {
     const gallery = await GalleryModel.findOne({ where: { id_gallery } });
     if (!gallery) {

@@ -1,7 +1,9 @@
 import { Sequelize, DataTypes } from "sequelize";
 import "dotenv/config";
 import db from "../utils/db.js";
-import Anggota from "./anggota.js";
+import Profile from "./profile.js";
+import Interest from "./interest.js";
+import Access from "./access_token.js";
 
 const User = db.define("User", {
   id_users: {
@@ -10,7 +12,7 @@ const User = db.define("User", {
     autoIncrement: true,
     allowNull: false,
   },
-  nama: {
+  username: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -19,10 +21,6 @@ const User = db.define("User", {
     allowNull: false,
   },
   password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  role: {
     type: Sequelize.STRING,
     allowNull: false,
   },
@@ -38,13 +36,36 @@ const User = db.define("User", {
   },
 });
 
-User.hasOne(Anggota, {
+User.hasOne(Profile, {
   foreignKey: "id_users",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",
 });
 
-Anggota.belongsTo(User, {
+Profile.belongsTo(User, {
+  foreignKey: "id_users",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+
+User.hasMany(Interest, {
+  foreignKey: "id_users",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+
+Interest.belongsTo(User, {
+  foreignKey: "id_users",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+User.hasOne(Access, {
+  foreignKey: "id_users",
+  onDelete: "RESTRICT",
+  onUpdate: "RESTRICT",
+});
+
+Access.belongsTo(User, {
   foreignKey: "id_users",
   onDelete: "RESTRICT",
   onUpdate: "RESTRICT",

@@ -1,16 +1,13 @@
 import express from "express";
 import routerUser from "./routerUser.js";
-import routerAnggota from "./routerAnggota.js";
-import routerGallery from "./routerGallery.js";
-import routerMessage from "./routerMessage.js"; // Import rute pesan
-import routerAlbum from "./routerAlbum.js";
+import routerMessage from "./routerMessage.js";
+import routerProfile from "./routerProfile.js";
+import routerInterest from "./routerInterest.js";
 
 const router = express.Router();
 
-// Menggunakan rute yang telah diimpor
-router.use(routerUser); // Rute untuk pengguna
-router.use(routerAnggota); // Rute untuk anggota
-router.use(routerGallery); // Rute untuk galeri
+router.use(routerUser);
+router.use(routerProfile);
 router.use("/messages", routerMessage);
-router.use(routerAlbum);
+router.use(routerInterest);
 export default router;
